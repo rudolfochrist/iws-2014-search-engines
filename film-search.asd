@@ -10,6 +10,7 @@
   :description "Absurd IMDB clone"
   :serial t
   :depends-on (:montezuma
-               :drakma)
+               :drakma
+               :yason)
   :components ((:file "film-search")
                (:file "data-fetcher")))
