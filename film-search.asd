@@ -9,5 +9,7 @@
   :author "Sebastian Christ <rudolfo.christ@gmail.com"
   :description "Absurd IMDB clone"
   :serial t
-  :depends-on (:montezuma)
-  :components ((:file "film-search")))
+  :depends-on (:montezuma
+               :drakma)
+  :components ((:file "film-search")
+               (:file "data-fetcher")))
