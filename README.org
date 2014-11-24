@@ -1,0 +1,8 @@
+
+* IWS 2014: Search Engine
+
+Here you find demos and exercises/examples for the IWS 2014 @ HS-Mannheim.
+
+* License
+
+see [[file:LICENSE][LICENSE]].
