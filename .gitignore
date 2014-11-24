@@ -3,3 +3,7 @@
 *.dx32fsl
 /index/
 /.DS_Store
+/java/index-backend/.gradle/
+/java/index-backend/.idea/
+/java/index-backend/build/
+/java/index-backend/index-backend.iml
