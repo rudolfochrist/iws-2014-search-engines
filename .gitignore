@@ -2,3 +2,4 @@
 *.fasl
 *.dx32fsl
 /index/
+/.DS_Store
