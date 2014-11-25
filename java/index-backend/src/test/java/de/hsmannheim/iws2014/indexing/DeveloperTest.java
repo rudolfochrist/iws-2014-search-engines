@@ -16,11 +16,12 @@ public class DeveloperTest {
     }
     @Test
     public void a_new_instance_can_be_initialized_with_json() throws Exception {
-//        JsonObject json = new JsonObject();
-//        json.add("residence", "Duckburg");
-//        Developer developer = new Developer(json);
-//
-//        assertThat(developer.residence, is(equalTo("Duckburg")));
+        JSONObject json = new JSONObject();
+        json.element("residence", "Duckburg");
+
+        Developer developer = new Developer(json);
+        assertThat(developer.residence, equalTo("Duckburg"));
+    }
 
     @Test
     public void a_newly_created_uninitalized_developer_has_no_surname() throws Exception {

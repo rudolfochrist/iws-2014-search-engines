@@ -1,6 +1,7 @@
 package de.hsmannheim.iws2014.indexing;
 
 import net.sf.json.JSONObject;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Basic Developer. Fancy struct. Supposed to indexed.
@@ -12,6 +13,12 @@ public class Developer {
     public String residence = "<no-residence>";
     public String personalAbstract = StringUtils.EMPTY;
 
+    public Developer(JSONObject json) {
+        firstname = json.optString("firstname", firstname);
+        surname = json.optString("surname", surname);
+        residence = json.optString("residence", residence);
+        personalAbstract = json.optString("personalAbstract", personalAbstract);
+    }
 
     public Developer() {};
 
