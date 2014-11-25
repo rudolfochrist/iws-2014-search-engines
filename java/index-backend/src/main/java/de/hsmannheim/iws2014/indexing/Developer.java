@@ -5,13 +5,13 @@ package de.hsmannheim.iws2014.indexing;
  */
 public class Developer {
 
-    public String firsname;
+    public String firstname;
     public String surname;
     public String residence;
     public String personalAbstract;
 
     public Developer addFirstname(String firstname) {
-        this.firsname = firstname;
+        this.firstname = firstname;
         return this;
     }
 

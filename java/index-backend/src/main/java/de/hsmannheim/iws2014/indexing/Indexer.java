@@ -22,7 +22,7 @@ public class Indexer {
             try {
                 for (Developer developer : developers) {
                     Document doc = new Document();
-                    doc.add(stringField("firstname", developer.firsname));
+                    doc.add(stringField("firstname", developer.firstname));
                     doc.add(stringField("surname", developer.surname));
                     doc.add(stringField("residence", developer.residence));
                     doc.add(textField("personalAbstract", developer.personalAbstract));
