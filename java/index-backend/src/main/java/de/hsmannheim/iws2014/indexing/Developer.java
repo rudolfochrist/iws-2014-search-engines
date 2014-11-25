@@ -1,5 +1,7 @@
 package de.hsmannheim.iws2014.indexing;
 
+import net.sf.json.JSONObject;
+
 /**
  * Basic Developer. Fancy struct. Supposed to indexed.
  */
@@ -28,5 +30,14 @@ public class Developer {
     public Developer addPersonalAbstract(String personalAbstract) {
         this.personalAbstract = personalAbstract;
         return this;
+    }
+
+    public JSONObject toJSON() {
+        JSONObject j = new JSONObject();
+        j.element("firstname", firstname);
+        j.element("surname", surname);
+        j.element("residence", residence);
+        j.element("personalAbstract", personalAbstract);
+        return j;
     }
 }
