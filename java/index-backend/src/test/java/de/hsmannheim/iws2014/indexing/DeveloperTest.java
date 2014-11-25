@@ -21,5 +21,9 @@ public class DeveloperTest {
 //        Developer developer = new Developer(json);
 //
 //        assertThat(developer.residence, is(equalTo("Duckburg")));
+
+    @Test
+    public void a_newly_created_uninitalized_developer_has_no_surname() throws Exception {
+        assertThat(new Developer().surname, equalTo("<no-surname>"));
     }
 }

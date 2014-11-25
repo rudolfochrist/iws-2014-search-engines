@@ -7,10 +7,13 @@ import net.sf.json.JSONObject;
  */
 public class Developer {
 
-    public String firstname;
-    public String surname;
-    public String residence;
-    public String personalAbstract;
+    public String firstname = "<no-firstname>";
+    public String surname = "<no-surname>";
+    public String residence = "<no-residence>";
+    public String personalAbstract = StringUtils.EMPTY;
+
+
+    public Developer() {};
 
     public Developer addFirstname(String firstname) {
         this.firstname = firstname;
