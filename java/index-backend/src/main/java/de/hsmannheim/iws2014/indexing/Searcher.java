@@ -20,18 +20,12 @@ public class Searcher {
         this.index = index;
     }
 
-    public SearchResult search(String queryString) {
+    public SearchResult search(String queryString) throws ParseException, IOException {
         QueryParser queryParser = new QueryParser(Indexer.PERSONAL_ABSTRACT, new StandardAnalyzer());
-        try {
-            Query query= queryParser.parse(queryString);
-            long start = System.currentTimeMillis();
-            TopDocs hits = index.search(query, 1000);
-            long stop = System.currentTimeMillis();
-            return new SearchResult(hits, stop-start);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Query query= queryParser.parse(queryString);
+        long start = System.currentTimeMillis();
+        TopDocs hits = index.search(query, 1000);
+        long stop = System.currentTimeMillis();
+        return new SearchResult(hits, stop-start);
     }
 }
