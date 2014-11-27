@@ -1,22 +1,17 @@
 package de.hsmannheim.iws2014.indexing;
 
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.store.RAMDirectory;
-import org.apache.lucene.util.Version;
-import org.hamcrest.CoreMatchers;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import java.util.ArrayList;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 @Category(IntegrationTest.class)
 public class IndexerSearcherIntegrationTest {
@@ -25,9 +20,6 @@ public class IndexerSearcherIntegrationTest {
 
     @BeforeClass
     public static void setupClass() throws Exception {
-        RAMDirectory dir = new RAMDirectory();
-        StandardAnalyzer analyzer = new StandardAnalyzer();
-
         ArrayList<Developer> developers = new ArrayList<Developer>();
         developers.add(new Developer()
                 .addFirstname("Donald")
@@ -50,24 +42,23 @@ public class IndexerSearcherIntegrationTest {
                 .addResidence("Metropolis")
                 .addPersonalAbstract("I will never fully grasp the eating thing..."));
 
-        IndexWriter iw = new IndexWriter(dir, new IndexWriterConfig(Version.LATEST, analyzer));
-        Indexer indexer = new Indexer(iw);
+        RAMDirectory dir = new RAMDirectory();
+        Indexer indexer = new Indexer(dir);
         indexer.index(developers);
-
         index = new IndexSearcher(DirectoryReader.open(dir));
     }
 
     @Test
     public void search_java_in_content() throws Exception {
         Searcher searcher = new Searcher(index);
-        SearchResult result = searcher.search("java");
+        SearchResult result = searcher.search("Java");
         assertThat(result.hits.totalHits, is(2));
     }
 
     @Test
     public void search_for_residence() throws Exception {
         Searcher searcher = new Searcher(index);
-        SearchResult result = searcher.search("residence:Duckburg");
+        SearchResult result = searcher.search("residence:duckburg");
         assertThat(result.hits.totalHits, is(2));
     }
 
