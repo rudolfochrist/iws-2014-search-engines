@@ -8,6 +8,8 @@ repositories {
 
 dependencies {
     compile 'org.apache.lucene:lucene-core:4.10.2'
+    compile 'org.apache.lucene:lucene-analyzers-common:4.10.2'
+    compile 'org.apache.lucene:lucene-queryparser:4.10.2'
     compile 'org.apache.commons:commons-lang3:3.3.2'
     compile 'net.sf.json-lib:json-lib:2.4:jdk15'
     testCompile 'junit:junit:4.12-beta-3'
