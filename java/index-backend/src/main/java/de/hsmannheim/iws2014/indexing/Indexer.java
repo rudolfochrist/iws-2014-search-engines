@@ -11,6 +11,10 @@ import java.util.List;
  */
 public class Indexer {
 
+    public static final String FIRSTNAME = "firstname";
+    public static final String SURNAME = "surname";
+    public static final String RESIDENCE = "residence";
+    public static final String PERSONAL_ABSTRACT = "personalAbstract";
     private final IndexWriter index;
 
     public Indexer(IndexWriter index) {
@@ -22,10 +26,10 @@ public class Indexer {
             try {
                 for (Developer developer : developers) {
                     Document doc = new Document();
-                    doc.add(stringField("firstname", developer.firstname));
-                    doc.add(stringField("surname", developer.surname));
-                    doc.add(stringField("residence", developer.residence));
-                    doc.add(textField("personalAbstract", developer.personalAbstract));
+                    doc.add(stringField(FIRSTNAME, developer.firstname));
+                    doc.add(stringField(SURNAME, developer.surname));
+                    doc.add(stringField(RESIDENCE, developer.residence));
+                    doc.add(textField(PERSONAL_ABSTRACT, developer.personalAbstract));
                     index.addDocument(doc);
                 }
             } finally {
