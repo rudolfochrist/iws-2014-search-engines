@@ -1,11 +1,11 @@
 package de.hsmannheim.iws2014.analyzers;
 
-import junit.framework.Assert;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.SimpleAnalyzer;
-import org.apache.lucene.analysis.Token;
 import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.core.SimpleAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -15,96 +15,37 @@ import java.util.ArrayList;
  * Code taken from: http://www.manning.com/hatcher3/
  */
 public class AnalyzerUtils {
-  public static Token[] tokensFromAnalysis(Analyzer analyzer,
-                                 String text) throws IOException {
-    TokenStream stream =
-        analyzer.tokenStream("contents", new StringReader(text));
-    ArrayList tokenList = new ArrayList();
-    while (true) {
-      Token token = stream.next();
-      if (token == null) break;
+    public static String[] tokensFromAnalysis(Analyzer analyzer,
+                                              String text) throws IOException {
+        TokenStream stream =
+                analyzer.tokenStream("contents", new StringReader(text));
+        stream.reset();
+        ArrayList tokenList = new ArrayList();
+        while (true) {
+            stream.incrementToken();
+            CharTermAttribute token = stream.addAttribute(CharTermAttribute.class);
+            if (StringUtils.isEmpty(token.toString())) break;
 
-      tokenList.add(token);
-    }
+            tokenList.add(token.toString());
+        }
 
-    return (Token[]) tokenList.toArray(new Token[0]);
+        return (String[]) tokenList.toArray(new String[0]);
   }
 
   public static void displayTokens(Analyzer analyzer,
                                  String text) throws IOException {
-    Token[] tokens = tokensFromAnalysis(analyzer, text);
+    String[] tokens = tokensFromAnalysis(analyzer, text);
 
     for (int i = 0; i < tokens.length; i++) {
-      Token token = tokens[i];
+      String token = tokens[i];
 
-      System.out.print("[" + token.termText() + "] ");
-    }
-  }
-
-  public static void displayTokensWithPositions(Analyzer analyzer,
-                                 String text) throws IOException {
-    Token[] tokens = tokensFromAnalysis(analyzer, text);
-
-    int position = 0;
-
-    for (int i = 0; i < tokens.length; i++) {
-      Token token = tokens[i];
-
-      int increment = token.getPositionIncrement();
-
-      if (increment > 0) {
-        position = position + increment;
-        System.out.println();
-        System.out.print(position + ": ");
-      }
-
-      System.out.print("[" + token.termText() + "] ");
-    }
-    System.out.println();
-  }
-
-  public static void displayTokensWithFullDetails(
-      Analyzer analyzer, String text) throws IOException {
-    Token[] tokens = tokensFromAnalysis(analyzer, text);
-
-    int position = 0;
-
-    for (int i = 0; i < tokens.length; i++) {
-      Token token = tokens[i];
-
-      int increment = token.getPositionIncrement();
-
-      if (increment > 0) {
-        position = position + increment;
-        System.out.println();
-        System.out.print(position + ": ");
-      }
-
-      System.out.print("[" + token.termText() + ":" +
-          token.startOffset() + "->" +
-          token.endOffset() + ":" +
-          token.type() + "] ");
-    }
-    System.out.println();
-  }
-
-  public static void assertTokensEqual(Token[] tokens,
-                                       String[] strings) {
-    Assert.assertEquals(strings.length, tokens.length);
-
-    for (int i = 0; i < tokens.length; i++) {
-      Assert.assertEquals("index " + i, strings[i], tokens[i].termText());
+      System.out.print("[" + token + "] ");
     }
   }
 
   public static void main(String[] args) throws IOException {
-    System.out.println("SimpleAnalyzer");
-    displayTokensWithFullDetails(new SimpleAnalyzer(),
-        "The quick brown fox....");
-
-    System.out.println("\n----");
-    System.out.println("StandardAnalyzer");
-    displayTokensWithFullDetails(new StandardAnalyzer(),
-        "I'll e-mail you at xyz@example.com");
+    System.out.println("Standard");
+    displayTokens(new PigLatinAnalyzer(),
+            "The quick brown fox....");
   }
 }
