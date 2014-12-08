@@ -11,6 +11,8 @@ import java.io.Reader;
 public class PigLatinAnalyzer extends Analyzer {
     @Override
     protected TokenStreamComponents createComponents(String fieldName, Reader reader) {
-        return new TokenStreamComponents(new StandardTokenizer(reader));
+        StandardTokenizer tokenizer = new StandardTokenizer(reader);
+        PigLatinFilter filter = new PigLatinFilter(tokenizer);
+        return new TokenStreamComponents(tokenizer, filter);
     }
 }
