@@ -11,7 +11,7 @@ import java.io.IOException;
  */
 public final class PigLatinFilter extends TokenFilter {
 
-    public static final String VOCALS = "aeio";
+    public static final String VOCALS = "aeiou";
 
     private final CharTermAttribute term;
 
