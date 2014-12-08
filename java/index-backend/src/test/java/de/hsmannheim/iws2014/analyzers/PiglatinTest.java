@@ -1,7 +1,5 @@
 package de.hsmannheim.iws2014.analyzers;
 
-import com.sun.corba.se.impl.orb.ParserTable;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.queryparser.simple.SimpleQueryParser;
