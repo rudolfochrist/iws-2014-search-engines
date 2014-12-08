@@ -1,6 +1,7 @@
 package de.hsmannheim.iws2014.indexing;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
@@ -21,7 +22,9 @@ public class Searcher {
     }
 
     public SearchResult search(String queryString) throws ParseException, IOException {
-        QueryParser queryParser = new QueryParser(Indexer.PERSONAL_ABSTRACT, new StandardAnalyzer());
+        MultiFieldQueryParser queryParser = new MultiFieldQueryParser(
+                new String[]{Indexer.FIRSTNAME, Indexer.SURNAME, Indexer.RESIDENCE, Indexer.PERSONAL_ABSTRACT},
+                new StandardAnalyzer());
         Query query= queryParser.parse(queryString);
         long start = System.currentTimeMillis();
         TopDocs hits = index.search(query, 1000);
