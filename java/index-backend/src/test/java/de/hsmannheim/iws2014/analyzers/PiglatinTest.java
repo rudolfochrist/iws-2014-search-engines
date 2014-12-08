@@ -22,7 +22,7 @@ public class PiglatinTest {
             "foobar", "gumba", "trantual", "alfredolino", "ugulu", "bla"
     };
 
-     @Test
+    @Test
     public void test_without_analyzer() throws Exception {
          RAMDirectory dir = new RAMDirectory();
          CustomAnalyzingIndexer indexer = new CustomAnalyzingIndexer(new StandardAnalyzer(), dir);
@@ -34,6 +34,19 @@ public class PiglatinTest {
          TopDocs oobarfay = contentSearch("oobarfay", dir);
          assertThat(oobarfay.totalHits, is(equalTo(0)));
      }
+
+    @Test
+    public void test_with_pig_lating_analyzer() throws Exception {
+        RAMDirectory dir = new RAMDirectory();
+        CustomAnalyzingIndexer indexer = new CustomAnalyzingIndexer(new PigLatinAnalyzer(), dir);
+        indexer.index(Arrays.asList(terms));
+
+        TopDocs foobar = contentSearch("foobar", dir);
+        assertThat(foobar.totalHits, is(equalTo(0)));
+
+        TopDocs oobarfay = contentSearch("oobarfay", dir);
+        assertThat(oobarfay.totalHits, is(equalTo(1)));
+    }
 
     private static TopDocs contentSearch(String query, Directory directory) throws IOException {
         IndexSearcher indexSearcher = new IndexSearcher(DirectoryReader.open(directory));
