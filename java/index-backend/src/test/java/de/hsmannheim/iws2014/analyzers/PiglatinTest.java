@@ -1,5 +1,7 @@
 package de.hsmannheim.iws2014.analyzers;
 
+import com.sun.corba.se.impl.orb.ParserTable;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.queryparser.simple.SimpleQueryParser;
@@ -46,6 +48,15 @@ public class PiglatinTest {
 
         TopDocs oobarfay = contentSearch("oobarfay", dir);
         assertThat(oobarfay.totalHits, is(equalTo(1)));
+    }
+
+    @Test
+    public void test_conversion() throws Exception {
+        StringBuffer sb = new StringBuffer();
+        for (String term : terms) {
+            sb.append(term).append(" ");
+        }
+        AnalyzerUtils.displayTokens(new PigLatinAnalyzer(), sb.toString());
     }
 
     private static TopDocs contentSearch(String query, Directory directory) throws IOException {
