@@ -1,7 +1,6 @@
 package de.hsmannheim.iws2014.indexing;
 
 import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.store.RAMDirectory;
 import org.junit.BeforeClass;
