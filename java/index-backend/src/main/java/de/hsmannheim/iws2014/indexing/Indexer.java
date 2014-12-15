@@ -64,7 +64,7 @@ public class Indexer {
     }
 
     private static TextField textField(String name, String value) {
-        return new TextField(name, value, Field.Store.NO);
+        return new TextField(name, value, Field.Store.YES);
     }
 
     static class IndexerException extends RuntimeException {
