@@ -36,7 +36,7 @@ public final class ThreeGramsFilter extends TokenFilter {
         if you call input.incrementToken() more than once, you're actually skipping tokens! Best is you take
         this idiom
 
-          `if (!input.incrementToken()) return false;
+          `if (!input.incrementToken()) return false;'
 
         and put it in the right place of your incrementToken() method.
 
