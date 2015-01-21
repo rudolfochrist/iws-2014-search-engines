@@ -3,19 +3,28 @@ package de.hsmannheim.iws2014.analyzers;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.core.SimpleAnalyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+import org.apache.lucene.analysis.tokenattributes.PositionIncrementAttribute;
 
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Code taken from: http://www.manning.com/hatcher3/
  */
 public class AnalyzerUtils {
-    public static String[] tokensFromAnalysis(Analyzer analyzer,
+    private static class StreamItem {
+        public String term;
+        public int position;
+        public StreamItem(String term, int position) {
+            this.term = term;
+            this.position = position;
+        }
+    }
+
+    public static List<StreamItem> tokensFromAnalysis(Analyzer analyzer,
                                               String text) throws IOException {
         TokenStream stream =
                 analyzer.tokenStream("contents", new StringReader(text));
@@ -24,22 +33,21 @@ public class AnalyzerUtils {
         while (true) {
             stream.incrementToken();
             CharTermAttribute token = stream.addAttribute(CharTermAttribute.class);
+            PositionIncrementAttribute pos = stream.addAttribute(PositionIncrementAttribute.class);
             if (StringUtils.isEmpty(token.toString())) break;
 
-            tokenList.add(token.toString());
+            tokenList.add(new StreamItem(token.toString(), pos.getPositionIncrement()));
         }
 
-        return (String[]) tokenList.toArray(new String[0]);
+        return tokenList;
   }
 
   public static void displayTokens(Analyzer analyzer,
                                  String text) throws IOException {
-    String[] tokens = tokensFromAnalysis(analyzer, text);
+    List<StreamItem> tokens = tokensFromAnalysis(analyzer, text);
 
-    for (int i = 0; i < tokens.length; i++) {
-      String token = tokens[i];
-
-      System.out.print("[" + token + "] ");
+    for (StreamItem token : tokens) {
+        System.out.print(String.format("[%s:%s] ", token.position, token.term ));
     }
   }
 
