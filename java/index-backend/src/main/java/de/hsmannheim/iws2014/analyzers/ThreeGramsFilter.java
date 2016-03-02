@@ -63,12 +63,44 @@ public final class ThreeGramsFilter extends TokenFilter {
         For more information see also: https://lucene.apache.org/core/4_10_3/core/org/apache/lucene/analysis/package-summary.html
          */
 
-        // add code here
+        // Lucene spezifischer Teil.
+        // Gibt es noch grams zu einem vorangegangen Token?
+        if (!grams.isEmpty()) {
 
+            // Lucene - reset term, pos und noch ein paar andere interne Dinge...
+            clearAttributes();
+
+            // setzte term auf das erste gram
+            term.append(grams.get(0));
+
+            // entferne das gram aus der Liste
+            grams.remove(0);
+
+            // setzte die relative Position auf 0 für das gram
+            pos.setPositionIncrement(0);
+
+            return true;
+        }
+
+        // lese nächstest token vom stream
+        // return false wenn keine nächstes Token vorhanden ist
         if (!input.incrementToken()) return false;
 
-        // add code here
 
+        // Token in $ einrahmen
+        String sTerm = "$" + term.toString() + "$";
+
+        for (int i = 0; i < sTerm.length(); i++) {
+
+            // gint es noch drei Zeichen im String um ein gram zu bilden?
+            if (i + 3 <= sTerm.length()) {
+
+                // füge das gram zur Liste der grams hinzu
+                grams.add(sTerm.substring(i, i+3));
+            }
+        }
+
+        // Alle grams für das gerade betrachtete Token erstellt.
         return true;
     }
 }
